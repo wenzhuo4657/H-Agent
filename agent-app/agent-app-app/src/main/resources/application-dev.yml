@@ -16,8 +16,8 @@ thread:
 spring:
   datasource:
     username: root
-    password: 123456
-    url: jdbc:mysql://127.0.0.1:3306/xfg_frame_archetype?useUnicode=true&characterEncoding=utf8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&serverTimezone=UTC&useSSL=true
+    password: 465700
+    url: jdbc:postgresql://${host.h1.ip}:5432/H-agent?useUnicode=true&characterEncoding=utf8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&serverTimezone=UTC&useSSL=true
     driver-class-name: com.mysql.cj.jdbc.Driver
   hikari:
     pool-name: Retail_HikariCP
@@ -29,6 +29,10 @@ spring:
     connection-timeout: 30000 #数据库连接超时时间,默认30秒，即30000
     connection-test-query: SELECT 1
   type: com.zaxxer.hikari.HikariDataSource
+  ai:
+    openai:
+      base-url: https://open.bigmodel.cn/api/paas/v4/
+      api-key: fced0439a9294fe7a64a5e9bfe757cd5.BkOgh86dPtRF8AmD
 
 # MyBatis 配置【如需使用记得打开】
 #mybatis:

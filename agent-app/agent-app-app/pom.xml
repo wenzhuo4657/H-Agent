@@ -88,6 +88,29 @@
             <groupId>cn.wenzhuo4657.ai</groupId>
             <artifactId>agent-app-infrastructure</artifactId>
         </dependency>
+
+        <!-- spring ai v1.0.0 start -->
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-starter-model-openai</artifactId>
+
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-starter-vector-store-pgvector</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-starter-mcp-client-webflux</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-tika-document-reader</artifactId>
+        </dependency>
+        <!-- spring ai v1.0.0 stop -->
     </dependencies>
 
     <build>
