@@ -42,22 +42,17 @@ services:
       timeout: 5s
       retries: 3
   vector_db:
-    image: pgvector/pgvector:0.7.4-pg13
-    container_name: vector_db
-    restart: always
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=springai
-      - PGPASSWORD=postgres
-    volumes:
-      - ./pgvector/sql/init.sql:/docker-entrypoint-initdb.d/init.sql # 这个脚本可能会执行失败，可以尝试手动执行 
-    logging:
-      options:
-        max-size: 10m
-        max-file: "3"
+    image: bitnami/postgresql:17.5.0
+    container_name: postgresql
     ports:
-      - '5432:5432'
+      - 5432:5432
+    environment:
+      POSTGRESQL_USERNAME: postgres
+      POSTGRESQL_PASSWORD: postgres
+      POSTGRESQL_DATABASE: H-agent
+    volumes:
+      - ./pgconf/postgresql.conf:/opt/bitnami/conf/postgresql.conf
+      - ./pgconf/pg_hba.conf:/opt/bitnami/conf/pg_hba.conf
     healthcheck:
       test: "pg_isready -U postgres -d H-agent"
       interval: 2s

@@ -15,10 +15,10 @@ thread:
 # 数据库配置；启动时配置数据库资源信息
 spring:
   datasource:
-    username: root
-    password: 465700
-    url: jdbc:postgresql://${host.h1.ip}:5432/H-agent?useUnicode=true&characterEncoding=utf8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&serverTimezone=UTC&useSSL=true
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: postgres
+    password: postgres
+    url: jdbc:postgresql://${host.h1.ip}:5432/H-agent?currentSchema=public
+    driver-class-name: org.postgresql.Driver
   hikari:
     pool-name: Retail_HikariCP
     minimum-idle: 15 #最小空闲连接数量
@@ -30,9 +30,20 @@ spring:
     connection-test-query: SELECT 1
   type: com.zaxxer.hikari.HikariDataSource
   ai:
-    openai:
-      base-url: https://open.bigmodel.cn/api/paas/v4/
+    zhipuai:
+      base-url: https://open.bigmodel.cn/api/paas    # todo 这里内部会拼接自动对接zhipu的各种路径，只需要保证根即可！！！！！
       api-key: fced0439a9294fe7a64a5e9bfe757cd5.BkOgh86dPtRF8AmD
+      chat:
+        options:
+          model: glm-4-flashx
+
+    vectorstore:
+      pgvector:
+
+        table-name:  vector_store
+        vector-column-name: vector
+        initialize-schema: true
+        dimensions: 1536
 
 # MyBatis 配置【如需使用记得打开】
 #mybatis:
