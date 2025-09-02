@@ -1,6 +1,4 @@
-# 命令执行 docker-compose -f docker-compose-environment-aliyun.yml up -d
-# docker 代理和使用文档；https://bugstack.cn/md/road-map/docker.html
-version: '3.9'
+
 services:
   mysql:
     image: mysql:8.0.32
@@ -44,7 +42,7 @@ services:
       timeout: 5s
       retries: 3
   vector_db:
-    image: pgvector/pgvector:v0.5.0
+    image: pgvector/pgvector:0.7.4-pg13
     container_name: vector_db
     restart: always
     environment:
@@ -53,7 +51,7 @@ services:
       - POSTGRES_DB=springai
       - PGPASSWORD=postgres
     volumes:
-      - ./pgvector/sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./pgvector/sql/init.sql:/docker-entrypoint-initdb.d/init.sql # 这个脚本可能会执行失败，可以尝试手动执行 
     logging:
       options:
         max-size: 10m
@@ -61,12 +59,26 @@ services:
     ports:
       - '5432:5432'
     healthcheck:
-      test: "pg_isready -U postgres -d vector_store"
+      test: "pg_isready -U postgres -d H-agent"
       interval: 2s
       timeout: 20s
       retries: 10
     networks:
       - my-network
+  pgadmin:
+    image: dpage/pgadmin4:snapshot
+    container_name: vector_db_admin
+    restart: always
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@qq.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    depends_on:
+      - vector_db
+    networks:
+      - my-network
+
 
 
 
