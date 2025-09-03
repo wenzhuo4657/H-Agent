@@ -14,6 +14,11 @@ thread:
 
 # 数据库配置；启动时配置数据库资源信息
 spring:
+  sql:
+    init:    # springboot提供的初始化数据库机制
+      mode: always
+      platform: postgres
+      schema-locations: classpath:/schema-postgres.sql
   datasource:
     username: postgres
     password: postgres
@@ -35,11 +40,10 @@ spring:
       api-key: fced0439a9294fe7a64a5e9bfe757cd5.BkOgh86dPtRF8AmD
       chat:
         options:
-          model: glm-4-flashx
+          model: glm-4.5
 
     vectorstore:
       pgvector:
-
         table-name:  vector_store
         vector-column-name: vector
         initialize-schema: true
