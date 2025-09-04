@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.wenzhuo4657.ai.infrastructure.dao.AiClientConfigDao">
+
+    <resultMap type="cn.wenzhuo4657.ai.infrastructure.dao.po.AiClientConfig" id="AiClientConfigMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="sourceType" column="source_type" jdbcType="VARCHAR"/>
+        <result property="sourceId" column="source_id" jdbcType="VARCHAR"/>
+        <result property="targetType" column="target_type" jdbcType="VARCHAR"/>
+        <result property="targetId" column="target_id" jdbcType="VARCHAR"/>
+        <result property="extParam" column="ext_param" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="AiClientConfigMap">
+        select
+id, source_type, source_id, target_type, target_id, ext_param, status, create_time, update_time
+        from ai_client_config
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="AiClientConfigMap">
+        select
+id, source_type, source_id, target_type, target_id, ext_param, status, create_time, update_time
+        from ai_client_config
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="sourceType != null and sourceType != ''">
+                and source_type = #{sourceType}
+            </if>
+            <if test="sourceId != null and sourceId != ''">
+                and source_id = #{sourceId}
+            </if>
+            <if test="targetType != null and targetType != ''">
+                and target_type = #{targetType}
+            </if>
+            <if test="targetId != null and targetId != ''">
+                and target_id = #{targetId}
+            </if>
+            <if test="extParam != null and extParam != ''">
+                and ext_param = #{extParam}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from ai_client_config
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="sourceType != null and sourceType != ''">
+                and source_type = #{sourceType}
+            </if>
+            <if test="sourceId != null and sourceId != ''">
+                and source_id = #{sourceId}
+            </if>
+            <if test="targetType != null and targetType != ''">
+                and target_type = #{targetType}
+            </if>
+            <if test="targetId != null and targetId != ''">
+                and target_id = #{targetId}
+            </if>
+            <if test="extParam != null and extParam != ''">
+                and ext_param = #{extParam}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into ai_client_config(source_type, source_id, target_type, target_id, ext_param, status, create_time, update_time)
+        values (#{sourceType}, #{sourceId}, #{targetType}, #{targetId}, #{extParam}, #{status}, #{createTime}, #{updateTime})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into ai_client_config(source_type, source_id, target_type, target_id, ext_param, status, create_time, update_time)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.sourceType}, #{entity.sourceId}, #{entity.targetType}, #{entity.targetId}, #{entity.extParam}, #{entity.status}, #{entity.createTime}, #{entity.updateTime})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into ai_client_config(source_type, source_id, target_type, target_id, ext_param, status, create_time, update_time)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.sourceType}, #{entity.sourceId}, #{entity.targetType}, #{entity.targetId}, #{entity.extParam}, #{entity.status}, #{entity.createTime}, #{entity.updateTime})
+        </foreach>
+        on duplicate key update
+source_type = values(source_type),
+source_id = values(source_id),
+target_type = values(target_type),
+target_id = values(target_id),
+ext_param = values(ext_param),
+status = values(status),
+create_time = values(create_time),
+update_time = values(update_time)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update ai_client_config
+        <set>
+            <if test="sourceType != null and sourceType != ''">
+                source_type = #{sourceType},
+            </if>
+            <if test="sourceId != null and sourceId != ''">
+                source_id = #{sourceId},
+            </if>
+            <if test="targetType != null and targetType != ''">
+                target_type = #{targetType},
+            </if>
+            <if test="targetId != null and targetId != ''">
+                target_id = #{targetId},
+            </if>
+            <if test="extParam != null and extParam != ''">
+                ext_param = #{extParam},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from ai_client_config where id = #{id}
+    </delete>
+
+</mapper>
+

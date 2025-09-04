@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.wenzhuo4657.ai.infrastructure.dao.AiClientAdvisorDao">
+
+    <resultMap type="cn.wenzhuo4657.ai.infrastructure.dao.po.AiClientAdvisor" id="AiClientAdvisorMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="advisorId" column="advisor_id" jdbcType="VARCHAR"/>
+        <result property="advisorName" column="advisor_name" jdbcType="VARCHAR"/>
+        <result property="advisorType" column="advisor_type" jdbcType="VARCHAR"/>
+        <result property="orderNum" column="order_num" jdbcType="INTEGER"/>
+        <result property="extParam" column="ext_param" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="AiClientAdvisorMap">
+        select
+id, advisor_id, advisor_name, advisor_type, order_num, ext_param, status, create_time, update_time
+        from ai_client_advisor
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="AiClientAdvisorMap">
+        select
+id, advisor_id, advisor_name, advisor_type, order_num, ext_param, status, create_time, update_time
+        from ai_client_advisor
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="advisorId != null and advisorId != ''">
+                and advisor_id = #{advisorId}
+            </if>
+            <if test="advisorName != null and advisorName != ''">
+                and advisor_name = #{advisorName}
+            </if>
+            <if test="advisorType != null and advisorType != ''">
+                and advisor_type = #{advisorType}
+            </if>
+            <if test="orderNum != null">
+                and order_num = #{orderNum}
+            </if>
+            <if test="extParam != null and extParam != ''">
+                and ext_param = #{extParam}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from ai_client_advisor
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="advisorId != null and advisorId != ''">
+                and advisor_id = #{advisorId}
+            </if>
+            <if test="advisorName != null and advisorName != ''">
+                and advisor_name = #{advisorName}
+            </if>
+            <if test="advisorType != null and advisorType != ''">
+                and advisor_type = #{advisorType}
+            </if>
+            <if test="orderNum != null">
+                and order_num = #{orderNum}
+            </if>
+            <if test="extParam != null and extParam != ''">
+                and ext_param = #{extParam}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into ai_client_advisor(advisor_id, advisor_name, advisor_type, order_num, ext_param, status, create_time, update_time)
+        values (#{advisorId}, #{advisorName}, #{advisorType}, #{orderNum}, #{extParam}, #{status}, #{createTime}, #{updateTime})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into ai_client_advisor(advisor_id, advisor_name, advisor_type, order_num, ext_param, status, create_time, update_time)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.advisorId}, #{entity.advisorName}, #{entity.advisorType}, #{entity.orderNum}, #{entity.extParam}, #{entity.status}, #{entity.createTime}, #{entity.updateTime})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into ai_client_advisor(advisor_id, advisor_name, advisor_type, order_num, ext_param, status, create_time, update_time)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.advisorId}, #{entity.advisorName}, #{entity.advisorType}, #{entity.orderNum}, #{entity.extParam}, #{entity.status}, #{entity.createTime}, #{entity.updateTime})
+        </foreach>
+        on duplicate key update
+advisor_id = values(advisor_id),
+advisor_name = values(advisor_name),
+advisor_type = values(advisor_type),
+order_num = values(order_num),
+ext_param = values(ext_param),
+status = values(status),
+create_time = values(create_time),
+update_time = values(update_time)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update ai_client_advisor
+        <set>
+            <if test="advisorId != null and advisorId != ''">
+                advisor_id = #{advisorId},
+            </if>
+            <if test="advisorName != null and advisorName != ''">
+                advisor_name = #{advisorName},
+            </if>
+            <if test="advisorType != null and advisorType != ''">
+                advisor_type = #{advisorType},
+            </if>
+            <if test="orderNum != null">
+                order_num = #{orderNum},
+            </if>
+            <if test="extParam != null and extParam != ''">
+                ext_param = #{extParam},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from ai_client_advisor where id = #{id}
+    </delete>
+
+</mapper>
+

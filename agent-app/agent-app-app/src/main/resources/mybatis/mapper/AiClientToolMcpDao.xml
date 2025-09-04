@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.wenzhuo4657.ai.infrastructure.dao.AiClientToolMcpDao">
+
+    <resultMap type="cn.wenzhuo4657.ai.infrastructure.dao.po.AiClientToolMcp" id="AiClientToolMcpMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="mcpId" column="mcp_id" jdbcType="VARCHAR"/>
+        <result property="mcpName" column="mcp_name" jdbcType="VARCHAR"/>
+        <result property="transportType" column="transport_type" jdbcType="VARCHAR"/>
+        <result property="transportConfig" column="transport_config" jdbcType="VARCHAR"/>
+        <result property="requestTimeout" column="request_timeout" jdbcType="INTEGER"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="AiClientToolMcpMap">
+        select
+id, mcp_id, mcp_name, transport_type, transport_config, request_timeout, status, create_time, update_time
+        from ai_client_tool_mcp
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="AiClientToolMcpMap">
+        select
+id, mcp_id, mcp_name, transport_type, transport_config, request_timeout, status, create_time, update_time
+        from ai_client_tool_mcp
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="mcpId != null and mcpId != ''">
+                and mcp_id = #{mcpId}
+            </if>
+            <if test="mcpName != null and mcpName != ''">
+                and mcp_name = #{mcpName}
+            </if>
+            <if test="transportType != null and transportType != ''">
+                and transport_type = #{transportType}
+            </if>
+            <if test="transportConfig != null and transportConfig != ''">
+                and transport_config = #{transportConfig}
+            </if>
+            <if test="requestTimeout != null">
+                and request_timeout = #{requestTimeout}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from ai_client_tool_mcp
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="mcpId != null and mcpId != ''">
+                and mcp_id = #{mcpId}
+            </if>
+            <if test="mcpName != null and mcpName != ''">
+                and mcp_name = #{mcpName}
+            </if>
+            <if test="transportType != null and transportType != ''">
+                and transport_type = #{transportType}
+            </if>
+            <if test="transportConfig != null and transportConfig != ''">
+                and transport_config = #{transportConfig}
+            </if>
+            <if test="requestTimeout != null">
+                and request_timeout = #{requestTimeout}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into ai_client_tool_mcp(mcp_id, mcp_name, transport_type, transport_config, request_timeout, status, create_time, update_time)
+        values (#{mcpId}, #{mcpName}, #{transportType}, #{transportConfig}, #{requestTimeout}, #{status}, #{createTime}, #{updateTime})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into ai_client_tool_mcp(mcp_id, mcp_name, transport_type, transport_config, request_timeout, status, create_time, update_time)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.mcpId}, #{entity.mcpName}, #{entity.transportType}, #{entity.transportConfig}, #{entity.requestTimeout}, #{entity.status}, #{entity.createTime}, #{entity.updateTime})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into ai_client_tool_mcp(mcp_id, mcp_name, transport_type, transport_config, request_timeout, status, create_time, update_time)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.mcpId}, #{entity.mcpName}, #{entity.transportType}, #{entity.transportConfig}, #{entity.requestTimeout}, #{entity.status}, #{entity.createTime}, #{entity.updateTime})
+        </foreach>
+        on duplicate key update
+mcp_id = values(mcp_id),
+mcp_name = values(mcp_name),
+transport_type = values(transport_type),
+transport_config = values(transport_config),
+request_timeout = values(request_timeout),
+status = values(status),
+create_time = values(create_time),
+update_time = values(update_time)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update ai_client_tool_mcp
+        <set>
+            <if test="mcpId != null and mcpId != ''">
+                mcp_id = #{mcpId},
+            </if>
+            <if test="mcpName != null and mcpName != ''">
+                mcp_name = #{mcpName},
+            </if>
+            <if test="transportType != null and transportType != ''">
+                transport_type = #{transportType},
+            </if>
+            <if test="transportConfig != null and transportConfig != ''">
+                transport_config = #{transportConfig},
+            </if>
+            <if test="requestTimeout != null">
+                request_timeout = #{requestTimeout},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from ai_client_tool_mcp where id = #{id}
+    </delete>
+
+</mapper>
+
