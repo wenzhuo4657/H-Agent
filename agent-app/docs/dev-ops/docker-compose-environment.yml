@@ -51,8 +51,7 @@ services:
       POSTGRESQL_PASSWORD: postgres
       POSTGRESQL_DATABASE: H-agent
     volumes:
-      - ./pgconf/postgresql.conf:/opt/bitnami/conf/postgresql.conf
-      - ./pgconf/pg_hba.conf:/opt/bitnami/conf/pg_hba.conf
+      - ./pgconf/init:/docker-entrypoint-initdb.d  
     healthcheck:
       test: "pg_isready -U postgres -d H-agent"
       interval: 2s
