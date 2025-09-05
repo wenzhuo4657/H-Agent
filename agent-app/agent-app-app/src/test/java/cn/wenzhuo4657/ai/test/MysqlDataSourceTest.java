@@ -29,7 +29,6 @@ public class MysqlDataSourceTest {
     public void mysqlTest() {
         log.info("开始执行测试");
         AiAgent aiAgent = new AiAgent();
-        aiAgent.setId(1l);//todo 这里插入id失效，数据在存的时候会自己重写
         aiAgent.setAgentId("1");
         aiAgent.setAgentName("测试");
         aiAgent.setDescription("测试");
@@ -39,7 +38,7 @@ public class MysqlDataSourceTest {
         aiAgent.setUpdateTime(new java.util.Date());
         int i = aiAgentDao.insert(aiAgent);
         log.info("插入结果：{}",i);
-        i = aiAgentDao.deleteById(1l);
+        i = aiAgentDao.deleteById(aiAgent.getId());
         log.info("删除结果：{}",i);
     }
 }
