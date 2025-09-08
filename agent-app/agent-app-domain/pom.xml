@@ -11,6 +11,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>io.github.wenzhuo4657</groupId>
+            <artifactId>simplify-the-process</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
